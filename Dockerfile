@@ -96,8 +96,6 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install ffmpeg -y
 RUN apt-get update && apt-get upgrade -y
 
-VOLUME /mp4automator
-
 #install mp4automator requirements
 RUN chmod -R 777 /mp4automator
 RUN chown -R 1000:1000 /mp4automator
@@ -109,3 +107,4 @@ COPY root/ /
 # ports and volumes
 EXPOSE 8080 9090
 VOLUME /config
+VOLUME /mp4automator
