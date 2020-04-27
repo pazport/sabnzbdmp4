@@ -36,6 +36,7 @@ RUN \
 	p7zip-full \
 	par2-tbb \
 	python-pip \
+	nano \
 	git \
 	python3-pip \
 	ffmpeg \
