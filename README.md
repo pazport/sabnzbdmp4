@@ -25,14 +25,16 @@ Find us at:
 
 # [linuxserver/sabnzbd](https://github.com/linuxserver/docker-sabnzbd)
 
-
+[![GitHub Stars](https://img.shields.io/github/stars/linuxserver/docker-sabnzbd.svg?style=flat-square&color=E68523&logo=github&logoColor=FFFFFF)](https://github.com/linuxserver/docker-sabnzbd)
 [![GitHub Release](https://img.shields.io/github/release/linuxserver/docker-sabnzbd.svg?style=flat-square&color=E68523&logo=github&logoColor=FFFFFF)](https://github.com/linuxserver/docker-sabnzbd/releases)
 [![GitHub Package Repository](https://img.shields.io/static/v1.svg?style=flat-square&color=E68523&label=linuxserver.io&message=GitHub%20Package&logo=github&logoColor=FFFFFF)](https://github.com/linuxserver/docker-sabnzbd/packages)
 [![GitLab Container Registry](https://img.shields.io/static/v1.svg?style=flat-square&color=E68523&label=linuxserver.io&message=GitLab%20Registry&logo=gitlab&logoColor=FFFFFF)](https://gitlab.com/Linuxserver.io/docker-sabnzbd/container_registry)
 [![Quay.io](https://img.shields.io/static/v1.svg?style=flat-square&color=E68523&label=linuxserver.io&message=Quay.io)](https://quay.io/repository/linuxserver.io/sabnzbd)
 [![MicroBadger Layers](https://img.shields.io/microbadger/layers/linuxserver/sabnzbd.svg?style=flat-square&color=E68523)](https://microbadger.com/images/linuxserver/sabnzbd "Get your own version badge on microbadger.com")
-[![Docker Pulls](https://img.shields.io/docker/pulls/linuxserver/sabnzbd.svg?style=flat-square&color=E68523&label=pulls&logo=docker&logoColor=FFFFFF)](https://hub.docker.com/r/man1234/sabnzbdmp4)
-[![Docker Stars](https://img.shields.io/docker/stars/linuxserver/sabnzbd.svg?style=flat-square&color=E68523&label=stars&logo=docker&logoColor=FFFFFF)](https://hub.docker.com/r/man1234/sabnzbdmp4)
+[![Docker Pulls](https://img.shields.io/docker/pulls/linuxserver/sabnzbd.svg?style=flat-square&color=E68523&label=pulls&logo=docker&logoColor=FFFFFF)](https://hub.docker.com/r/linuxserver/sabnzbd)
+[![Docker Stars](https://img.shields.io/docker/stars/linuxserver/sabnzbd.svg?style=flat-square&color=E68523&label=stars&logo=docker&logoColor=FFFFFF)](https://hub.docker.com/r/linuxserver/sabnzbd)
+[![Build Status](https://ci.linuxserver.io/view/all/job/Docker-Pipeline-Builders/job/docker-sabnzbd/job/master/badge/icon?style=flat-square)](https://ci.linuxserver.io/job/Docker-Pipeline-Builders/job/docker-sabnzbd/job/master/)
+[![](https://lsio-ci.ams3.digitaloceanspaces.com/linuxserver/sabnzbd/latest/badge.svg)](https://lsio-ci.ams3.digitaloceanspaces.com/linuxserver/sabnzbd/latest/index.html)
 
 [Sabnzbd](http://sabnzbd.org/) makes Usenet as simple and streamlined as possible by automating everything we can. All you have to do is add an .nzb. SABnzbd takes over from there, where it will be automatically downloaded, verified, repaired, extracted and filed away with zero human interaction.
 
@@ -74,11 +76,12 @@ docker create \
   -e PGID=1000 \
   -e TZ=Europe/London \
   -p 8080:8080 \
+  -p 9090:9090 \
   -v <path to data>:/config \
   -v <path to downloads>:/downloads \
   -v <path to incomplete downloads>:/incomplete-downloads `#optional` \
   --restart unless-stopped \
-  man1234/sabnzbdmp4
+  linuxserver/sabnzbd
 ```
 
 
@@ -91,7 +94,7 @@ Compatible with docker-compose v2 schemas.
 version: "2.1"
 services:
   sabnzbd:
-    image: man1234/sabnzbdmp4
+    image: linuxserver/sabnzbd
     container_name: sabnzbd
     environment:
       - PUID=1000
@@ -103,6 +106,7 @@ services:
       - <path to incomplete downloads>:/incomplete-downloads #optional
     ports:
       - 8080:8080
+      - 9090:9090
     restart: unless-stopped
 ```
 
@@ -113,6 +117,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | Parameter | Function |
 | :----: | --- |
 | `-p 8080` | HTTP port for the WebUI. |
+| `-p 9090` | HTTPS port for the WebUI. |
 | `-e PUID=1000` | for UserID - see below for explanation |
 | `-e PGID=1000` | for GroupID - see below for explanation |
 | `-e TZ=Europe/London` | Specify a timezone to use EG Europe/London. |

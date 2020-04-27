@@ -9,8 +9,10 @@ LABEL maintainer="thelamer"
 
 # environment settings
 ARG DEBIAN_FRONTEND="noninteractive"
-ENV HOME="/config" \
+ENV HOME="/config"  \
 PYTHONIOENCODING=utf-8
+
+
 
 RUN \
  echo "***** install gnupg ****" && \
@@ -29,25 +31,18 @@ RUN \
  else \
 	SABNZBD="sabnzbdplus=${SABNZBD_VERSION}"; \
  fi && \
- apt-get update && apt-get upgrade -y && \
+ apt-get update && \
  apt-get install -y \
 	p7zip-full \
 	par2-tbb \
 	python-pip \
+	git \
 	python3-pip \
-	build-essential \
+	ffmpeg \
 	python3 \
 	${SABNZBD} \
-	ffmpeg \
-	nano \
 	unrar \
-	unzip \
-	build-essential \
-    libssl-dev \
-    libcurl4-gnutls-dev \
-    libexpat1-dev \
-    gettext \
-	git && \
+	unzip && \
  pip install --no-cache-dir \
 	apprise \
 	chardet \
@@ -69,22 +64,22 @@ RUN \
 		subliminal \
 		python-dateutil \
 		stevedore \
-		qtfaststart\
+		qtfaststart \
         sabyenc && \
  echo "**** cleanup ****" && \
+ apt-get purge --auto-remove -y \
+	python-pip \
+	python3-pip && \
  apt-get clean && \
  rm -rf \
 	/tmp/* \
 	/var/lib/apt/lists/* \
 	/var/tmp/*
 
-# Install MP4 Automator
-RUN git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git mp4automator
-VOLUME /mp4automator
-
-#Set script file permissions
-RUN chmod 775 -R /mp4automator
-RUN chown 1000:1000 -R /mp4automator
+#mp4automator
+RUN git clone https://github.com/pazport/sickbeard_mp4_automator.git mp4automator
+RUN chmod -R 777 /mp4automator
+RUN chown -R 1000:1000 /mp4automator
 
 #update ffmpeg
 RUN apt-get update && apt-get upgrade -y
@@ -95,11 +90,6 @@ RUN add-apt-repository ppa:savoury1/ffmpeg4 -y
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install ffmpeg -y
 RUN apt-get update && apt-get upgrade -y
-
-#install mp4automator requirements
-RUN chmod -R 777 /mp4automator
-RUN chown -R 1000:1000 /mp4automator
-
 
 # add local files
 COPY root/ /
