@@ -51,26 +51,23 @@ RUN \
 	requests \
 	sabyenc && \
  pip3 install --no-cache-dir \
-        apprise \
-        chardet \
-        pynzb \
-        requests \
-		requests[security] \
-		requests-cache \
-		babelfish \
-		tmdbsimple \
-		idna \
-		mutagen \
-		guessit \
-		subliminal \
-		python-dateutil \
-		stevedore \
-		qtfaststart \
-        sabyenc && \
+    apprise \
+    chardet \
+    pynzb \
+    requests \
+	requests[security] \
+	requests-cache \
+	babelfish \
+	tmdbsimple \
+	idna \
+	mutagen \
+	guessit \
+	subliminal \
+	python-dateutil \
+	stevedore \
+	qtfaststart \
+    sabyenc && \
  echo "**** cleanup ****" && \
- apt-get purge --auto-remove -y \
-	python-pip \
-	python3-pip && \
  apt-get clean && \
  rm -rf \
 	/tmp/* \
