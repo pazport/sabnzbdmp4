@@ -78,6 +78,7 @@ RUN \
 RUN git clone https://github.com/pazport/sickbeard_mp4_automator.git mp4automator
 RUN chmod -R 777 /mp4automator
 RUN chown -R 1000:1000 /mp4automator
+RUN ln -s /config/mp4automator /mp4automator
 
 #update ffmpeg
 RUN apt-get update && apt-get upgrade -y
