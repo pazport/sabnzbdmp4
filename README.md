@@ -1,6 +1,6 @@
 once you have installed sabnzbd you will need to bash into sabnzd with
 
-docker exec -it sabnzbdmovies /bin/bash
+docker exec -it sabnzbd /bin/bash
 
 then `` cd /mp4automator/config``
 then ``nano autoProcess.ini``
