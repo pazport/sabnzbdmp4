@@ -25,7 +25,7 @@ docker create \
   -v <path to downloads>:/downloads \
   -v <path to incomplete downloads>:/incomplete-downloads `#optional` \
   --restart unless-stopped \
-  linuxserver/sabnzbd
+ man1234/sabnzbdmp4
 ```
 
 ## Parameters
