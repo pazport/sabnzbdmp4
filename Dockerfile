@@ -5,7 +5,7 @@ ARG BUILD_DATE
 ARG VERSION
 ARG SABNZBD_VERSION
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="thelamer"
+LABEL maintainer="sparklyballs"
 
 # environment settings
 ARG DEBIAN_FRONTEND="noninteractive"
@@ -34,8 +34,6 @@ RUN \
  apt-get update && \
  apt-get install -y \
 	p7zip-full \
-	par2-tbb \
-	python-pip \
 	nano \
 	git \
 	python3-pip \
@@ -44,12 +42,6 @@ RUN \
 	${SABNZBD} \
 	unrar \
 	unzip && \
- pip install --no-cache-dir \
-	apprise \
-	chardet \
-	pynzb \
-	requests \
-	sabyenc && \
  pip3 install --no-cache-dir \
     apprise \
     chardet \
