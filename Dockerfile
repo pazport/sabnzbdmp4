@@ -73,7 +73,7 @@ RUN chown -R 1000:1000 /mp4automator
 RUN ln -s /config/mp4automator /mp4automator
 
 #update and install latest ffmpeg
-RUN pip3 install -U pip --no-cache-dir -y
+RUN pip3 install -U pip --no-cache-dir
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install software-properties-common -y
 RUN add-apt-repository ppa:savoury1/graphics -y
