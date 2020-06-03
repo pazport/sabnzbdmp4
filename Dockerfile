@@ -7,7 +7,7 @@ ARG SABNZBD_VERSION
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="sparklyballs"
 
-# environment settings
+# environment settings
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config"  \
 PYTHONIOENCODING=utf-8
@@ -40,6 +40,8 @@ RUN \
 	ffmpeg \
 	python3 \
 	${SABNZBD} \
+	par2-tbb \
+	python-sabyenc \
 	unrar \
 	unzip && \
  pip3 install --no-cache-dir \
@@ -83,7 +85,7 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install ffmpeg -y
 RUN apt-get update && apt-get upgrade -y
 
-# add local files
+# add local files
 COPY root/ /
 
 # ports and volumes
