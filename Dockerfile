@@ -1,45 +1,25 @@
-FROM lsiobase/ubuntu:bionic
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-# set version label
-ARG BUILD_DATE
-ARG VERSION
-ARG SABNZBD_VERSION
-LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
-LABEL maintainer="sparklyballs"
+# Set environment variables
+ENV SABNZBD_VERSION 3.3.1
 
-# environment settings
-ARG DEBIAN_FRONTEND="noninteractive"
-ENV HOME="/config"  \
-PYTHONIOENCODING=utf-8
+# Install dependencies and Sabnzbd
+RUN apt-get update && apt-get install -y \
+    unzip \
+    && pip install sabyenc \
+    && mkdir -p /opt/sabnzbd \
+    && curl -o /tmp/sabnzbd-${SABNZBD_VERSION}-src.tar.gz -L "https://github.com/sabnzbd/sabnzbd/archive/${SABNZBD_VERSION}.tar.gz" \
+    && tar -xzf /tmp/sabnzbd-${SABNZBD_VERSION}-src.tar.gz -C /opt/sabnzbd --strip-components=1 \
+    && rm /tmp/sabnzbd-${SABNZBD_VERSION}-src.tar.gz
 
-
-
-RUN \
- echo "***** install gnupg ****" && \
- apt-get update && \
- apt-get install -y \
-        gnupg && \
- echo "***** add sabnzbd repositories ****" && \
- apt-key adv --keyserver hkp://keyserver.ubuntu.com:11371 --recv-keys 0x98703123E0F52B2BE16D586EF13930B14BB9F05F && \
- echo "deb http://ppa.launchpad.net/jcfp/nobetas/ubuntu bionic main" >> /etc/apt/sources.list.d/sabnzbd.list && \
- echo "deb-src http://ppa.launchpad.net/jcfp/nobetas/ubuntu bionic main" >> /etc/apt/sources.list.d/sabnzbd.list && \
- echo "deb http://ppa.launchpad.net/jcfp/sab-addons/ubuntu bionic main" >> /etc/apt/sources.list.d/sabnzbd.list && \
- echo "deb-src http://ppa.launchpad.net/jcfp/sab-addons/ubuntu bionic main" >> /etc/apt/sources.list.d/sabnzbd.list && \
- echo "**** install packages ****" && \
- if [ -z ${SABNZBD_VERSION+x} ]; then \
-	SABNZBD="sabnzbdplus"; \
- else \
-	SABNZBD="sabnzbdplus=${SABNZBD_VERSION}"; \
- fi && \
- apt-get update && \
- apt-get install -y \
+RUN apt-get install -y \
 	p7zip-full \
 	nano \
 	git \
 	python3-pip \
 	ffmpeg \
 	python3 \
-	${SABNZBD} \
 	par2-tbb \
 	python-sabyenc \
 	unrar \
@@ -60,14 +40,7 @@ RUN \
 	python-dateutil \
 	stevedore \
 	qtfaststart \
-    sabyenc && \
- echo "**** cleanup ****" && \
- apt-get clean && \
- rm -rf \
-	/tmp/* \
-	/var/lib/apt/lists/* \
-	/var/tmp/*
-
+    sabyenc
 #mp4automator
 RUN git clone https://github.com/pazport/sickbeard_mp4_automator.git mp4automator
 RUN chmod -R 777 /mp4automator
@@ -87,8 +60,12 @@ RUN apt-get update && apt-get upgrade -y
 
 # add local files
 COPY root/ /
+WORKDIR /opt/sabnzbd
 
 # ports and volumes
 EXPOSE 8080 9090
 VOLUME /config
 VOLUME /mp4automator
+
+# Start Sabnzbd
+CMD ["python", "SABnzbd.py", "-f", "/config"]
